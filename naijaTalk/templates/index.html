@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<main class="home-page " style="padding-top: 50px;">
+
+  <!-- Hero Section (Breaking News Cards) -->
+  {% include 'partials/hero_section.html' %}
+
+  <div class="containerDiv  py-5">
+    <div class="row">
+
+      <!-- Latest News Section -->
+      <section class="col-lg-8 mb-4">
+        
+      
+        <!-- News Articles -->
+        <h2 class="font-bold h5 mb-4">Latest News</h2>
+        <div class="row gy-4">
+          {% for article in latest_articles %}
+            <div class="col-12">
+                <div class="d-flex align-items-center p-3 border rounded overflow-hidden" style="min-height: 180px; height: auto;">
+                    <!-- Image Section -->
+                    <div class="flex-shrink-0" style="width: 30%; height: 100%;">
+                      <img src="{{ article.image_url|default_if_none:'/static/images/default.jpeg' }}" 
+                           alt="{{ article.title }}" 
+                           class="img-fluid h-100 w-100 rounded" 
+                           style="object-fit: cover;">
+                    </div>
+                  
+                    <!-- Text Section -->
+                    <div class="flex-grow-1 ps-3 d-flex flex-column justify-content-center h-100">
+                      <div>
+                        <h5 class="font-bold mb-2">
+                          <a href="{% url 'article_detail' slug=article.slug %}" class="text-dark text-decoration-none">
+                            {{ article.title }}
+                          </a>
+                        </h5>
+                        <p class="font-regular mb-2">{{ article.summary|truncatechars:120 }}</p>
+                        <a href="{% url 'article_detail' slug=article.slug %}" class="read-more text-primary text-decoration-none">
+                          Read More
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+          {% empty %}
+            <div class="col-12">
+              <p>No articles available at the moment. Please check back later.</p>
+            </div>
+          {% endfor %}
+        </div>
+      </section>
+
+      <!-- Top Categories Section -->
+      <section class="col-lg-4 mb-4">
+        <h2 class="font-bold h5 mb-4">Top Categories</h2>
+        <div class="row gy-4">
+          {% for category in top_categories %}
+            <div class="col-12">
+              <a href="{% url 'category_news' category.slug %}" class="text-decoration-none">
+              <div class="card h-100 border-0 shadow-sm rounded overflow-hidden">
+                <div class="card-body position-relative text-white p-4" 
+                     style="background-image: url('{{ category.latest_article.image_url|default_if_none:'/static/images/default.jpeg' }}'); background-size: cover; background-position: center;">
+                  <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0,0,0,0.4);"></div>
+                  <div class="position-relative" style="z-index: 2;">
+                    <h5 class="card-title font-bold mb-3">{{ category.name }}</h5>
+                    {% if category.latest_article %}
+                      <h6 class="font-bold mb-1">
+                        <div class="text-white text-decoration-none">
+                          {{ category.latest_article.title }}
+                        </div>
+                      </h6>
+                      <small>{{ category.latest_article.published_date|date:"F d, Y" }}</small>
+                    {% else %}
+                      <small>No recent articles</small>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </a>
+            </div>
+          {% empty %}
+            <div class="col-12">
+              <p>No top categories available.</p>
+            </div>
+          {% endfor %}
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+ 
+
+</main>
+{% endblock %}

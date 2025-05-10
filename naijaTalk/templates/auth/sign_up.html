@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="containerDiv py-5">
+  <div class="row justify-content-center" style="margin-top: 50px;">
+    <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+      <div class="card shadow rounded-4 border-0">
+        <div class="card-body p-4">
+          <h2 class="mb-4 text-center font-bold" style="color: var(--tertiary-color);">Create an Account</h2>
+          <form method="post" novalidate>
+            {% csrf_token %}
+            {% for field in form %}
+              <div class="mb-3">
+                <label for="{{ field.id_for_label }}" class="form-label font-regular" style="color: var(--text-color);">
+                  {{ field.label }}
+                </label>
+                <div class="input-group">
+                  {{ field }}
+                </div>
+                {% if field.help_text %}
+                  <div class="form-text text-muted small">{{ field.help_text }}</div>
+                {% endif %}
+                {% if field.errors %}
+                  <div class="text-danger small mt-1">
+                    {% for error in field.errors %}
+                      {{ error }}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+            {% endfor %}
+
+            <!-- Email Notifications Checkbox -->
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" name="email_updates" id="email_updates">
+              <label class="form-check-label font-regular" for="email_updates">
+                I would like to receive updates and notifications by email
+              </label>
+            </div>
+
+            <!-- Terms and Conditions Agreement Checkbox -->
+            <div class="form-check mb-4">
+              <input class="form-check-input" type="checkbox" name="agree_terms" id="agree_terms" required>
+              <label class="form-check-label font-regular" for="agree_terms">
+                I agree to the <a href="/terms" style="color: var(--link-color);">Terms and Conditions</a>
+              </label>
+            </div>
+
+            <button type="submit" class="btn w-100 font-bold" style="background-color: var(--primary-color);">
+              Sign Up
+            </button>
+
+             <p class="mt-3 text-center">
+              Already have an account?
+              <a href="{% url 'login' %}" style="color: var(--link-color); font-weight: var(--font-weight-bold);">
+                Log in
+              </a>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

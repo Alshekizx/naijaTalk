@@ -1,0 +1,254 @@
+:root {
+    --primary-color: #008000; /* Vibrant Green */
+    --secondary-color: #FF6F00; /* Bright Orange */
+    --tertiary-color: #003366; /* Dark Blue */
+    --accent-color: #FFB81C; /* Yellow-Gold */
+    --background-color: #F5F5F5; /* Light Gray */
+    --text-color: #333333; /* Charcoal Gray */
+    --link-color: #00B8D9; /* Cyan Blue */
+}
+/* --- Global Styles --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    font-size: 1rem; /* Default font size */
+}
+
+/* --- Font Sizes --- */
+h1 {
+    font-size: 3rem;  /* 5xl */
+    font-weight: bold; /* Bold */
+}
+
+h2 {
+    font-size: 2.25rem; /* 4xl */
+    font-weight: bold;
+}
+
+h3 {
+    font-size: 1.875rem; /* 3xl */
+    font-weight: bold;
+}
+
+h4 {
+    font-size: 1.5rem; /* 2xl */
+    font-weight: bold;
+}
+
+h5 {
+    font-size: 1.25rem; /* xl */
+    font-weight: bold;
+}
+
+h6 {
+    font-size: 1.125rem; /* lg */
+    font-weight: bold;
+}
+
+p, li, span {
+    font-size: 1rem; /* Regular text size */
+    font-weight: normal;
+}
+
+/* --- Font Weights --- */
+.font-light {
+    font-weight: 300;
+}
+
+.font-regular {
+    font-weight: 400;
+}
+
+.font-bold {
+    font-weight: 700;
+}
+
+/* --- Button Styles --- */
+button {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: var(--secondary-color);
+}
+
+/* --- Links --- */
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--accent-color);
+}
+
+/* --- Containers & Layout --- */
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* --- Utility Classes --- */
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-left {
+    text-align: left;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+
+/* --- Header Styles --- */
+header {
+    background-color: var(--primary-color);
+    padding: 10px 0;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.logo img {
+    max-height: 50px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+.cta-button {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+.cta-button:hover {
+    background-color: var(--tertiary-color);
+}
+
+/* --- Search Bar Styles --- */
+.search-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.search-input {
+    padding: 8px 10px;
+    border-radius: 20px;
+    border: 1px solid var(--accent-color);
+    width: 200px;
+    font-size: 1rem;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+}
+
+.search-icon {
+    position: absolute;
+    right: 10px;
+    color: var(--accent-color);
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+/* --- Mobile Menu Toggle --- */
+.mobile-menu-toggle {
+    display: none;
+    cursor: pointer;
+}
+
+.mobile-menu-toggle i {
+    color: white;
+    font-size: 1.5rem;
+}
+
+/* --- Responsive Styles --- */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background-color: var(--primary-color);
+        position: absolute;
+        top: 60px;
+        left: 0;
+        padding: 20px 0;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-links li {
+        text-align: center;
+        margin: 10px 0;
+    }
+
+    .mobile-menu-toggle {
+        display: block;
+    }
+
+    .cta-button {
+        margin-top: 10px;
+    }
+}
+
+.heroImg{
+    width: 50%;
+}

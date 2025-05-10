@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="containerDiv py-5" style="padding-top: 100px;">
+  <article class="mb-5">
+
+    {% with article.get_all_images as images %}
+    
+      <!-- First Image -->
+      {% if images|length > 0 %}
+      <div class="mb-4">
+        <img src="{{ images.0 }}" 
+             alt="{{ article.title }} image 1" 
+             class="img-fluid rounded shadow-sm w-100" 
+             style="object-fit: cover; max-height: 500px;">
+      </div>
+      {% endif %}
+
+      <!-- Title and Meta -->
+      <h1 class="mb-3 fw-bold">{{ article.title }}</h1>
+      <div class="mb-4 text-muted small">
+        <span>By {{ article.author }}</span> |
+        <span>{{ article.published_date|date:"F d, Y" }}</span> |
+        <span>
+          Category: 
+          <a href="/news/{{ article.category.slug }}" class="text-primary text-decoration-none">
+            {{ article.category.name }}
+          </a>
+        </span>
+      </div>
+
+      <!-- Summary -->
+      <p class="lead">{{ article.summary }}</p>
+
+      <!-- Video Embed -->
+      {% if article.video_url and article.video_url|length > 10 %}
+      <div class="mb-4 text-center">
+        <div class="ratio ratio-16x9 w-100 mx-auto" style="max-width: 800px;">
+          <iframe 
+            src="{{ article.video_url }}" 
+            title="Video for {{ article.title }}" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+    {% endif %}
+
+      <!-- Full Content -->
+      <div class="mt-4">
+        {{ article.content|safe }}
+      </div>
+
+      <!-- Second and Third Images -->
+      {% if images|length > 1 %}
+      <div class="row mt-4 mb-4 g-3">
+        <div class="col-md-6">
+          <img src="{{ images.1 }}" 
+               alt="{{ article.title }} image 2" 
+               class="img-fluid rounded shadow-sm w-100" 
+               style="object-fit: cover; max-height: 500px;">
+        </div>
+        {% if images|length > 2 %}
+        <div class="col-md-6">
+          <img src="{{ images.2 }}" 
+               alt="{{ article.title }} image 3" 
+               class="img-fluid rounded shadow-sm w-100" 
+               style="object-fit: cover; max-height: 500px;">
+          </div>
+        {% endif %}
+      </div>
+      {% endif %}
+
+      {% load static %}
+
+<section id="comments" class="mt-5">
+  <h3 class="mb-4">{{ article.comments.count }} Comment{{ article.comments.count|pluralize }}</h3>
+
+  <!-- Comment Form -->
+  {% if user.is_authenticated %}
+  <div class="card mb-4 shadow-sm border-0">
+    <div class="card-body">
+      <h5 class="card-title mb-3">Leave a Comment</h5>
+      <form action="{% url 'article_add_comment' article.pk %}" method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+          <textarea name="body"
+                    class="form-control rounded-3 shadow-sm"
+                    rows="3"
+                    placeholder="Share your thoughts..."
+                    required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary px-4">Post Comment</button>
+      </form>
+    </div>
+  </div>
+  {% else %}
+    <p><a href="{% url 'login' %}">Log in</a> to leave a comment.</p>
+  {% endif %}
+
+  <!-- Existing Comments -->
+  {% for comment in article.comments.all %}
+  <div class="d-flex mb-4">
+    <!-- Profile Image -->
+    <div class="flex-shrink-0 me-3">
+      {% if comment.user.profile.image %}
+        <img src="{{ comment.user.profile.image.url }}"
+             alt="{{ comment.user.username }}’s avatar"
+             class="rounded-circle border"
+             style="width: 50px; height: 50px; object-fit: cover;">
+      {% else %}
+        <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center"
+             style="width: 50px; height: 50px; font-weight: bold; font-size: 1.25rem;">
+          {{ comment.user.username|first|upper }}
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Username, Date & Body -->
+    <div class="flex-grow-1">
+      <div class="d-flex justify-content-between align-items-center">
+        <strong>{{ comment.user.username }}</strong>
+        <small class="text-muted">{{ comment.created_at|date:"F j, Y, g:i a" }}</small>
+      </div>
+      <p class="mt-2 mb-0">{{ comment.body|linebreaksbr }}</p>
+    </div>
+  </div>
+  {% empty %}
+    <p class="text-muted">No comments yet. Be the first to comment!</p>
+  {% endfor %}
+</section>
+
+    {% endwith %}
+
+    <!-- Back to Home Button -->
+    <div class="mt-5">
+      <a href="/" class="btn btn-outline-primary">← Back to Home</a>
+    </div>
+
+  </article>
+</main>
+{% endblock %}
